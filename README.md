@@ -1,3 +1,9 @@
+> **ParadauxIO fork.** Branch `paradaux` is upstream release **v6.5.1** (Keycloak 26.5.5
+> build) rebuilt so its `eclipse-temurin:21-jre` runtime carries current JDK fixes
+> (Java4Shell, CVE-2026-114938), published to
+> `harbor.paradaux.io/paradaux-public/keycloak-config-cli`. Upstream:
+> [adorsys/keycloak-config-cli](https://github.com/adorsys/keycloak-config-cli) (Apache-2.0).
+
 [![CI](https://github.com/adorsys/keycloak-config-cli/actions/workflows/ci.yaml/badge.svg)](https://github.com/adorsys/keycloak-config-cli/actions/workflows/ci.yaml?query=branch%3Amain)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/adorsys/keycloak-config-cli?logo=github&sort=semver)](https://github.com/adorsys/keycloak-config-cli/releases/latest)
 [![GitHub All Releases](https://img.shields.io/github/downloads/adorsys/keycloak-config-cli/total?logo=github)](https://github.com/adorsys/keycloak-config-cli/releases)

@@ -1,0 +1,25 @@
+name: Tested image
+# ParadauxIO fork: rebuild the pinned upstream release (branch `paradaux`, based on
+# tag v6.5.1) so the runtime picks up patched eclipse-temurin:21-jre JDKs, and
+# publish it to Harbor via the shared application-ci workflow. Upstream's CI is
+# removed on this branch. Pull requests only build; pushes publish a digest.
+on:
+  pull_request:
+  push:
+    branches: [paradaux]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  image:
+    uses: ParadauxIO/application-ci/.github/workflows/reusable-image.yaml@33f0dcb3f6f7a7eaad4671758f1af84e9614550d
+    with:
+      stack: java
+      version: '21'
+      # Upstream's test suite needs live Keycloak containers; compile and package only.
+      test-command: ./mvnw -B -ntp -q package -DskipTests -Dlicense.skipCheckLicense -Dcheckstyle.skip
+      image: harbor.paradaux.io/paradaux-public/keycloak-config-cli
+      publish: ${{ github.event_name != 'pull_request' }}
+    secrets:
+      HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+      HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
