@@ -17,8 +17,11 @@ jobs:
       stack: java
       version: '21'
       # Upstream's test suite needs live Keycloak containers; compile and package only.
-      # Runner-provided mvn avoids the wrapper downloading Maven (429s from Central).
-      test-command: mvn -B -ntp -q package -DskipTests -Dlicense.skipCheckLicense -Dcheckstyle.skip
+      # Use the wrapper (upstream's Maven 3.9.x; the runner's Maven 4 rejects this POM)
+      # and retry, since the wrapper's Maven download can hit HTTP 429 from Central.
+      test-command: >-
+        for i in 1 2 3; do ./mvnw -B -ntp -q package -DskipTests -Dlicense.skipCheckLicense
+        -Dcheckstyle.skip && exit 0; echo "attempt $i failed; retrying"; sleep 45; done; exit 1
       image: harbor.paradaux.io/paradaux-public/keycloak-config-cli
       publish: ${{ github.event_name != 'pull_request' }}
     secrets:
