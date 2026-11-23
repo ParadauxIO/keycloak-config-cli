@@ -17,7 +17,8 @@ jobs:
       stack: java
       version: '21'
       # Upstream's test suite needs live Keycloak containers; compile and package only.
-      test-command: ./mvnw -B -ntp -q package -DskipTests -Dlicense.skipCheckLicense -Dcheckstyle.skip
+      # Runner-provided mvn avoids the wrapper downloading Maven (429s from Central).
+      test-command: mvn -B -ntp -q package -DskipTests -Dlicense.skipCheckLicense -Dcheckstyle.skip
       image: harbor.paradaux.io/paradaux-public/keycloak-config-cli
       publish: ${{ github.event_name != 'pull_request' }}
     secrets:
